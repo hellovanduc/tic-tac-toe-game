@@ -14,6 +14,8 @@ const Game = () => {
     move: 0,
   });
 
+  const [revertOrder, setRevertOrder] = useState(false)
+
   const current = state.history[state.move];
 
   const calculateWinner = (squares) => {
@@ -113,6 +115,10 @@ const Game = () => {
     );
   });
 
+  const toggleHistoryOrder = () => {
+    setRevertOrder(prevValue => !prevValue)
+  }
+
   return (
     <div className="game">
       <div className="game-board">
@@ -125,7 +131,10 @@ const Game = () => {
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <div>
+          <button onClick={toggleHistoryOrder}>Toggle history order</button>
+        </div>
+        <ol>{revertOrder ? moves.reverse() : moves }</ol>
       </div>
     </div>
   );

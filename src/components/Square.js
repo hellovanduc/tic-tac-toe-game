@@ -1,17 +1,13 @@
-import React from "react";
+const Square = (props) => {
+  const clickHandler = () => {
+    props.onSquareClick(props.index);
+  };
 
-class Square extends React.Component {
-  clickHandler() {
-    this.props.onSquareClick(this.props.index);
-  }
-
-  render() {
-    return (
-      <button className="square" onClick={this.clickHandler.bind(this)}>
-        {this.props.value}
-      </button>
-    );
-  }
-}
+  return (
+    <button className="square" onClick={clickHandler}>
+      {props.value}
+    </button>
+  );
+};
 
 export default Square;

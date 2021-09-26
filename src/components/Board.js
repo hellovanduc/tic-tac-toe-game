@@ -1,66 +1,55 @@
-import React from "react";
+import { useState } from "react";
 import Square from "./Square";
 
-class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squareValues: Array(9).fill(null),
-      nextPlayer: "X",
-    };
-  }
+const Board = () => {
+  const [state, setSate] = useState({
+    squareValues: Array(9).fill(null),
+    nextPlayer: "X",
+  });
 
-  squareClickHandler(i) {
-    this.setState((prevState) => {
+  const squareClickHandler = (i) => {
+    setSate((prevState) => {
       if (prevState.squareValues[i] === null) {
         let newSquareValues = prevState.squareValues.slice();
         newSquareValues[i] = prevState.nextPlayer;
 
-        let newNextPlayer = prevState.nextPlayer === "X" ? "O" : "X";
+        let newNextPlayer  = prevState.nextPlayer === "X" ? "O" : "X"
 
-        return {
-          ...prevState,
-          squareValues: newSquareValues,
-          nextPlayer: newNextPlayer,
-        };
+        return {...prevState, nextPlayer: newNextPlayer, squareValues: newSquareValues};
       }
     });
-  }
+  };
 
-  renderSquare(i) {
+  const renderSquare = (i) => {
     return (
       <Square
-        value={this.state.squareValues[i]}
+        value={state.squareValues[i]}
         index={i}
-        onSquareClick={this.squareClickHandler.bind(this)}
+        onSquareClick={squareClickHandler}
       />
     );
-  }
+  };
 
-  render() {
-    const status = `Next player: ${this.state.nextPlayer}`;
-
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+  return (
+    <div>
+      <div className="status">Next player: {state.nextPlayer}</div>
+      <div className="board-row">
+        {renderSquare(0)}
+        {renderSquare(1)}
+        {renderSquare(2)}
       </div>
-    );
-  }
-}
+      <div className="board-row">
+        {renderSquare(3)}
+        {renderSquare(4)}
+        {renderSquare(5)}
+      </div>
+      <div className="board-row">
+        {renderSquare(6)}
+        {renderSquare(7)}
+        {renderSquare(8)}
+      </div>
+    </div>
+  );
+};
 
 export default Board;

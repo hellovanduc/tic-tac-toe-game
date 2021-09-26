@@ -3,9 +3,10 @@ import Square from "./Square";
 const Board = (props) => {
   const squareClickHandler = (i) => {
     if (!props.isGameOver && props.squares[i] === null) {
-      props.squares[i] = props.nextPlayer;
+      let newSquares = props.squares.slice()
+      newSquares[i] = props.nextPlayer;
 
-      props.onSquaresChange(props.squares);
+      props.onSquaresChange(newSquares);
     }
   };
 

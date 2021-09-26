@@ -10,6 +10,7 @@ const Game = () => {
         winner: null,
         location: null,
         hightLightSquares: null,
+        outOfEmptySquares: false,
       },
     ],
     move: 0,
@@ -52,6 +53,8 @@ const Game = () => {
 
       let [newWinner, newHightLightSquares] = calculateWinner(newSquares);
 
+      let newOutOfEmptySquares = !newSquares.includes(null);
+
       let newLocation = convertSquareIndexToLocation(squareIndex);
 
       let newHistory = prevState.history.slice(0, prevState.move + 1).concat([
@@ -61,6 +64,7 @@ const Game = () => {
           winner: newWinner,
           location: newLocation,
           hightLightSquares: newHightLightSquares,
+          outOfEmptySquares: newOutOfEmptySquares,
         },
       ]);
 
@@ -86,10 +90,15 @@ const Game = () => {
     return { col, row };
   };
 
-  const status =
-    current.winner !== null
-      ? `Winner: ${current.winner}`
-      : `Next player: ${current.nextPlayer}`;
+  const getStatus = () => {
+    if (current.winner !== null) {
+      return `Winner: ${current.winner}`;
+    } else if (current.outOfEmptySquares) {
+      return "Result: draw";
+    } else {
+      return `Next player: ${current.nextPlayer}`;
+    }
+  };
 
   const goToMove = (step) => {
     setSate({
@@ -134,7 +143,7 @@ const Game = () => {
       </div>
       <div className="game-info">
         <div>
-          <h3>{status}</h3>
+          <h3>{getStatus()}</h3>
         </div>
         <div>
           <button onClick={toggleHistoryOrder}>Toggle history order</button>

@@ -3,7 +3,14 @@ import Board from "./Board";
 
 const Game = () => {
   const [state, setSate] = useState({
-    history: [{ squares: Array(9).fill(null), nextPlayer: "X", winner: null }],
+    history: [
+      {
+        squares: Array(9).fill(null),
+        nextPlayer: "X",
+        winner: null,
+        location: null,
+      },
+    ],
     move: 0,
   });
 
@@ -35,18 +42,21 @@ const Game = () => {
     return null;
   };
 
-  const squaresChangeHandler = (newSquares) => {
+  const squaresChangeHandler = (newSquares, squareIndex) => {
     setSate((prevState) => {
       let prevHistory = prevState.history[prevState.move];
       let newNextPlayer = prevHistory.nextPlayer === "X" ? "O" : "X";
 
       let newWinner = calculateWinner(newSquares);
 
+      let newLocation = convertSquareIndexToLocation(squareIndex);
+
       let newHistory = prevState.history.slice(0, prevState.move + 1).concat([
         {
           squares: newSquares,
           nextPlayer: newNextPlayer,
           winner: newWinner,
+          location: newLocation,
         },
       ]);
 
@@ -58,6 +68,18 @@ const Game = () => {
         move: newMove,
       };
     });
+  };
+
+  const convertSquareIndexToLocation = (squareIndex) => {
+    let col = squareIndex % 3 + 1;
+
+    let row = 1;
+    while (squareIndex - 3 >= 0) {
+      squareIndex -= 3;
+      row++;
+    }
+
+    return { col, row };
   };
 
   const status =
@@ -74,9 +96,14 @@ const Game = () => {
 
   const moves = state.history.map((value, step) => {
     let description = step === 0 ? "Go to game start" : `Go to move #${step}`;
+    let location =
+      value.location === null
+        ? ""
+        : ` (col: ${value.location.col}, row: ${value.location.row})`;
+
     return (
       <li key={step}>
-        <button onClick={() => goToMove(step)}>{description}</button>
+        <button onClick={() => goToMove(step)}>{description}{location}</button>
       </li>
     );
   });

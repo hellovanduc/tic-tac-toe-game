@@ -6,7 +6,7 @@ const Board = (props) => {
       let newSquares = props.squares.slice()
       newSquares[i] = props.nextPlayer;
 
-      props.onSquaresChange(newSquares);
+      props.onSquaresChange(newSquares, i);
     }
   };
 

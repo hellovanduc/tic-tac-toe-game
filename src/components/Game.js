@@ -130,11 +130,13 @@ const Game = () => {
         />
       </div>
       <div className="game-info">
-        <div>{status}</div>
+        <div>
+          <h3>{status}</h3>
+        </div>
         <div>
           <button onClick={toggleHistoryOrder}>Toggle history order</button>
         </div>
-        <ol>{revertOrder ? moves.reverse() : moves }</ol>
+        <ol>{revertOrder ? moves.reverse() : moves}</ol>
       </div>
     </div>
   );

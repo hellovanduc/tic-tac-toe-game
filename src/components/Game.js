@@ -9,12 +9,13 @@ const Game = () => {
         nextPlayer: "X",
         winner: null,
         location: null,
+        hightLightSquares: null,
       },
     ],
     move: 0,
   });
 
-  const [revertOrder, setRevertOrder] = useState(false)
+  const [revertOrder, setRevertOrder] = useState(false);
 
   const current = state.history[state.move];
 
@@ -37,11 +38,11 @@ const Game = () => {
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
-        return squares[a];
+        return [squares[a], [a, b, c]];
       }
     }
 
-    return null;
+    return [null, null];
   };
 
   const squaresChangeHandler = (newSquares, squareIndex) => {
@@ -49,7 +50,7 @@ const Game = () => {
       let prevHistory = prevState.history[prevState.move];
       let newNextPlayer = prevHistory.nextPlayer === "X" ? "O" : "X";
 
-      let newWinner = calculateWinner(newSquares);
+      let [newWinner, newHightLightSquares] = calculateWinner(newSquares);
 
       let newLocation = convertSquareIndexToLocation(squareIndex);
 
@@ -59,6 +60,7 @@ const Game = () => {
           nextPlayer: newNextPlayer,
           winner: newWinner,
           location: newLocation,
+          hightLightSquares: newHightLightSquares,
         },
       ]);
 
@@ -116,8 +118,8 @@ const Game = () => {
   });
 
   const toggleHistoryOrder = () => {
-    setRevertOrder(prevValue => !prevValue)
-  }
+    setRevertOrder((prevValue) => !prevValue);
+  };
 
   return (
     <div className="game">
@@ -126,6 +128,7 @@ const Game = () => {
           squares={current.squares}
           nextPlayer={current.nextPlayer}
           isGameOver={current.winner !== null}
+          hightLightSquares={current.hightLightSquares}
           onSquaresChange={squaresChangeHandler}
         />
       </div>

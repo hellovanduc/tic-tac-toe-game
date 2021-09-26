@@ -3,8 +3,10 @@ const Square = (props) => {
     props.onSquareClick(props.index);
   };
 
+  const classNameValue = props.isHightLight ? 'square hight-light' : 'square'
+
   return (
-    <button className="square" onClick={clickHandler}>
+    <button className={classNameValue} onClick={clickHandler}>
       {props.value}
     </button>
   );

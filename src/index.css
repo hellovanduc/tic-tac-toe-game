@@ -75,3 +75,8 @@ button {
   background-color: rgb(192, 236, 238);
   margin: 5px;
 }
+
+button.hight-light {
+  border-color: red;
+  background-color: rgb(230, 152, 152);
+}

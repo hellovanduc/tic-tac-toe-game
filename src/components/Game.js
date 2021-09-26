@@ -7,7 +7,7 @@ const Game = () => {
     move: 0,
   });
 
-  const currentVersion = state.history[state.move];
+  const current = state.history[state.move];
 
   const calculateWinner = (squares) => {
     const lines = [
@@ -39,10 +39,10 @@ const Game = () => {
     setSate((prevState) => {
       let prevHistory = prevState.history[prevState.move];
       let newNextPlayer = prevHistory.nextPlayer === "X" ? "O" : "X";
-      
+
       let newWinner = calculateWinner(newSquares);
 
-      let newHistory = prevState.history.concat([
+      let newHistory = prevState.history.slice(0, prevState.move + 1).concat([
         {
           squares: newSquares,
           nextPlayer: newNextPlayer,
@@ -61,9 +61,9 @@ const Game = () => {
   };
 
   const status =
-    currentVersion.winner !== null
-      ? `Winner: ${currentVersion.winner}`
-      : `Next player: ${currentVersion.nextPlayer}`;
+    current.winner !== null
+      ? `Winner: ${current.winner}`
+      : `Next player: ${current.nextPlayer}`;
 
   const goToMove = (step) => {
     setSate({
@@ -85,9 +85,9 @@ const Game = () => {
     <div className="game">
       <div className="game-board">
         <Board
-          squares={currentVersion.squares}
-          nextPlayer={currentVersion.nextPlayer}
-          isGameOver={currentVersion.winner !== null}
+          squares={current.squares}
+          nextPlayer={current.nextPlayer}
+          isGameOver={current.winner !== null}
           onSquaresChange={squaresChangeHandler}
         />
       </div>

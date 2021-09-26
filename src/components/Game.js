@@ -71,7 +71,7 @@ const Game = () => {
   };
 
   const convertSquareIndexToLocation = (squareIndex) => {
-    let col = squareIndex % 3 + 1;
+    let col = (squareIndex % 3) + 1;
 
     let row = 1;
     while (squareIndex - 3 >= 0) {
@@ -101,9 +101,14 @@ const Game = () => {
         ? ""
         : ` (col: ${value.location.col}, row: ${value.location.row})`;
 
+    let classNameValue = step === state.move ? "selected" : "";
+
     return (
-      <li key={step}>
-        <button onClick={() => goToMove(step)}>{description}{location}</button>
+      <li key={step} className={classNameValue}>
+        <button onClick={() => goToMove(step)}>
+          {description}
+          {location}
+        </button>
       </li>
     );
   });

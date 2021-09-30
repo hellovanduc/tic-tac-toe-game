@@ -3,23 +3,10 @@ body {
   margin: 20px;
 }
 
-ol,
-ul {
-  padding-left: 30px;
-}
-
-li.selected button {
-  background-color: rgb(75, 64, 226);
-}
-
 .board-row:after {
   clear: both;
   content: "";
   display: table;
-}
-
-.status {
-  margin-bottom: 10px;
 }
 
 .square {
@@ -45,16 +32,11 @@ li.selected button {
   background: #ddd;
 }
 
-.game {
-  display: flex;
-  flex-direction: row;
-}
-
-.game-info {
-  margin-left: 20px;
-}
-
 button.hight-light {
   border-color: red;
   background-color: rgb(230, 152, 152);
+}
+
+.btn {
+  margin: 10px 5px 10px 0
 }

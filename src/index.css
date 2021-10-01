@@ -3,6 +3,10 @@ body {
   margin: 20px;
 }
 
+li.selected button {
+  background-color: rgb(17, 238, 84);
+}
+
 .board-row:after {
   clear: both;
   content: "";

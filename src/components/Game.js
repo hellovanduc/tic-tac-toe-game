@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Board from "./Board";
+import Board from "./Board/Board";
+import GameSetting from "./GameSetting/GameSetting";
 
 const Game = () => {
   const [state, setSate] = useState({
@@ -17,6 +18,8 @@ const Game = () => {
   });
 
   const [revertOrder, setRevertOrder] = useState(false);
+  const [numOfRows, setNumOfRows] = useState(5);
+  const [numOfCols, setNumOfCols] = useState(5);
 
   const current = state.history[state.move];
 
@@ -118,7 +121,7 @@ const Game = () => {
 
     return (
       <li key={step} className={classNameValue}>
-        <button onClick={() => goToMove(step)}>
+        <button className="btn btn-secondary" onClick={() => goToMove(step)}>
           {description}
           {location}
         </button>
@@ -130,25 +133,41 @@ const Game = () => {
     setRevertOrder((prevValue) => !prevValue);
   };
 
+  const onSaveGameSetting = (numOfRows, numOfCols) => {
+    setNumOfCols(numOfCols);
+    setNumOfRows(numOfRows);
+  };
+
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board
-          squares={current.squares}
-          nextPlayer={current.nextPlayer}
-          isGameOver={current.winner !== null}
-          hightLightSquares={current.hightLightSquares}
-          onSquaresChange={squaresChangeHandler}
-        />
-      </div>
-      <div className="game-info">
-        <div>
-          <h3>{getStatus()}</h3>
+    <div className="container">
+      <GameSetting
+        saveGameSetting={onSaveGameSetting}
+        currentNumOfCols={numOfCols}
+        currentNumOfRows={numOfRows}
+      />
+      <div className="row">
+        <div className="col-xs-12 col-md-6">
+          <Board
+            squares={current.squares}
+            nextPlayer={current.nextPlayer}
+            isGameOver={current.winner !== null}
+            hightLightSquares={current.hightLightSquares}
+            onSquaresChange={squaresChangeHandler}
+            numOfRows={numOfRows}
+            numOfCols={numOfCols}
+          />
         </div>
-        <div>
-          <button onClick={toggleHistoryOrder}>Toggle history order</button>
+        <div className="col-xs-12 col-md-6">
+          <div>
+            <h3>{getStatus()}</h3>
+          </div>
+          <div>
+            <button className="btn btn-primary" onClick={toggleHistoryOrder}>
+              Toggle history order
+            </button>
+          </div>
+          <ol>{revertOrder ? moves.reverse() : moves}</ol>
         </div>
-        <ol>{revertOrder ? moves.reverse() : moves}</ol>
       </div>
     </div>
   );

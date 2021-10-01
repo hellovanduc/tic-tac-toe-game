@@ -1,12 +1,16 @@
 import { useState } from "react";
 import Board from "./Board/Board";
 import GameSetting from "./GameSetting/GameSetting";
+import GameInfor from "./GameInfor/GameInfor";
+
+const DEFAULT_NUM_OF_COLS = 5;
+const DEFAULT_NUM_OF_ROWS = 5;
 
 const Game = () => {
   const [state, setSate] = useState({
     history: [
       {
-        squares: Array(9).fill(null),
+        squares: Array(DEFAULT_NUM_OF_COLS * DEFAULT_NUM_OF_ROWS).fill(null),
         nextPlayer: "X",
         winner: null,
         location: null,
@@ -18,8 +22,8 @@ const Game = () => {
   });
 
   const [revertOrder, setRevertOrder] = useState(false);
-  const [numOfRows, setNumOfRows] = useState(5);
-  const [numOfCols, setNumOfCols] = useState(5);
+  const [numOfRows, setNumOfRows] = useState(DEFAULT_NUM_OF_ROWS);
+  const [numOfCols, setNumOfCols] = useState(DEFAULT_NUM_OF_COLS);
 
   const current = state.history[state.move];
 
@@ -82,11 +86,11 @@ const Game = () => {
   };
 
   const convertSquareIndexToLocation = (squareIndex) => {
-    let col = (squareIndex % 3) + 1;
+    let col = (squareIndex % numOfCols) + 1;
 
     let row = 1;
-    while (squareIndex - 3 >= 0) {
-      squareIndex -= 3;
+    while (squareIndex - numOfCols >= 0) {
+      squareIndex -= numOfCols;
       row++;
     }
 
@@ -136,6 +140,19 @@ const Game = () => {
   const onSaveGameSetting = (numOfRows, numOfCols) => {
     setNumOfCols(numOfCols);
     setNumOfRows(numOfRows);
+    setSate({
+      history: [
+        {
+          squares: Array(numOfCols * numOfRows).fill(null),
+          nextPlayer: "X",
+          winner: null,
+          location: null,
+          hightLightSquares: null,
+          outOfEmptySquares: false,
+        },
+      ],
+      move: 0,
+    });
   };
 
   return (
@@ -158,15 +175,12 @@ const Game = () => {
           />
         </div>
         <div className="col-xs-12 col-md-6">
-          <div>
-            <h3>{getStatus()}</h3>
-          </div>
-          <div>
-            <button className="btn btn-primary" onClick={toggleHistoryOrder}>
-              Toggle history order
-            </button>
-          </div>
-          <ol>{revertOrder ? moves.reverse() : moves}</ol>
+          <GameInfor
+            toggleHistoryOrder={toggleHistoryOrder}
+            status={getStatus()}
+            revertOrder={revertOrder}
+            moves={revertOrder ? moves.reverse() : moves}
+          />
         </div>
       </div>
     </div>

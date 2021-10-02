@@ -132,7 +132,7 @@ const Game = () => {
         currentNumOfRows={numOfRows}
       />
       <div className="row">
-        <div className="col-xs-12 col-md-6">
+        <div className="col-xs-12 col-md-10 col-lg-8">
           <Board
             squares={current.squares}
             nextPlayer={current.nextPlayer}
@@ -143,7 +143,7 @@ const Game = () => {
             numOfCols={numOfCols}
           />
         </div>
-        <div className="col-xs-12 col-md-6">
+        <div className="col-xs-12 col-md-2 col-lg-4">
           <GameInfor
             toggleHistoryOrder={toggleHistoryOrder}
             status={getStatus()}
